@@ -1,0 +1,6 @@
+# config/api_keys.yaml
+
+upbit:
+  access_key: "SwdH1QzHBm5m2pwq3D5cFzUUSXrhOSD0t4HGH5WL"
+  secret_key: "uHzeLfNEXx6JUudvNVUm6n0B1WErNFKowizLBHJK"
+  base_url: "https://api.upbit.com/v1"
