@@ -22,12 +22,14 @@ gradle-app.setting
 
 # Config & Secrets
 config/api_keys.yaml
+.env
 
 # Python
 __pycache__/
-.env
+*.py[cod]
 .venv/
 venv/
+*.log
 
 # Data
-data
+data/
