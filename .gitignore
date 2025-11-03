@@ -19,3 +19,15 @@ gradle-app.setting
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
+
+# Config & Secrets
+config/api_keys.yaml
+
+# Python
+__pycache__/
+.env
+.venv/
+venv/
+
+# Data
+data

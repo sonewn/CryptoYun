@@ -7,9 +7,10 @@ from datetime import datetime, timedelta
 from typing import Optional
 import pandas as pd
 import uuid
+from pathlib import Path
 
 class UpbitCollector:
-    def __init__(self, config_path: str = "config/api_keys.yaml"):
+    def __init__(self, config_path: str = "../../config/api_keys.yaml"):
         self.config = self._load_config(config_path)
         self.access_key = self.config["upbit"]["access_key"]
         self.secret_key = self.config["upbit"]["secret_key"]
@@ -29,7 +30,7 @@ class UpbitCollector:
             import hashlib
             import urllib.parse
 
-            query_string = urllib.parse.urlencode(query).encode("utf-8")
+            query_string = urllib.parse.urlencode(query)
             m = hashlib.sha512()
             m.update(query_string.encode("utf-8"))
             query_hash = m.hexdigest()
@@ -51,8 +52,11 @@ class UpbitCollector:
     
     def save_file(self, df:pd.DataFrame, category: str):
         "수집 데이터 파일 저장 - 추후 확장자 고민 필요"
-        os.makedirs("data/raw", exist_ok=True)
-        file_path = f"data/raw/{category}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+        base_dir = Path(__file__).resolve().parent.parent.parent
+        data_dir = base_dir / "data" / "raw" / category
+        data_dir.mkdir(parents=True, exist_ok=True)
+
+        file_path = data_dir / f"{self.access_key}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
         df.to_csv(file_path, index=False)
         print(f"Saved {category} data succesfully --> {file_path}")
 
@@ -62,4 +66,4 @@ if __name__ == "__main__":
 
     # 1️⃣ 나의 자산현황
     balance_df = collector.get_my_asset()
-    collector.save_to_csv(balance_df, "my_asset")
+    collector.save_file(balance_df, "my_asset")
